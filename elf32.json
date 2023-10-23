@@ -28,7 +28,7 @@
                 "length": 9
             }
         ],
-        "@elf64eh": [
+        "@elf32eh": [
             {
                 "name": "e_ident",
                 "type": "@e_ident"
@@ -47,15 +47,15 @@
             },
             {
                 "name": "e_entry",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "e_phoff",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "e_shoff",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "e_flags",
@@ -86,7 +86,7 @@
                 "type": "H"
             }
         ],
-        "@elf64ph": [
+        "@elf32ph": [
             {
                 "name": "p_type",
                 "type": "I"
@@ -97,30 +97,30 @@
             },
             {
                 "name": "p_offset",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "p_vaddr",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "p_paddr",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "p_filesz",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "p_memsz",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "p_align",
-                "type": "Q"
+                "type": "I"
             }
         ],
-        "@elf64sh": [
+        "@elf32sh": [
             {
                 "name": "sh_name",
                 "type": "I"
@@ -131,19 +131,19 @@
             },
             {
                 "name": "sh_flags",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "sh_addr",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "sh_offset",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "sh_size",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "sh_link",
@@ -155,46 +155,39 @@
             },
             {
                 "name": "sh_addralign",
-                "type": "Q"
+                "type": "I"
             },
             {
                 "name": "sh_entsize",
-                "type": "Q"
-            }
-        ],
-
-        "@elf64": [
-            {
-                "name": "Elf64_Ehdr",
-                "type": "@elf64eh"
-            },
-            {
-                "name": "seek(SEEK_SET)",
-                "type": ".seek_set",
-                "length": "$Elf64/Elf64_Ehdr/e_phoff"
-            },
-            {
-                "name": "Elf64_Phdr",
-                "type": "@elf64ph",
-                "length": "$Elf64/Elf64_Ehdr/e_phnum"
-            },
-            {
-                "name": "seek(SEEK_SET)",
-                "type": ".seek_set",
-                "length": "$Elf64/Elf64_Ehdr/e_shoff"
-            },
-            {
-                "name": "Elf64_Shdr",
-                "type": "@elf64sh",
-                "length": "$Elf64/Elf64_Ehdr/e_shnum"
+                "type": "I"
             }
         ]
     },
 
     "root":[
         {
-            "name": "Elf64",
-            "type": "@elf64"
+            "name": "Elf32_Ehdr",
+            "type": "@elf32eh"
+        },
+        {
+            "name": "seek(SEEK_SET)",
+            "type": ".seek_set",
+            "length": "$Elf32_Ehdr/e_phoff"
+        },
+        {
+            "name": "Elf32_Phdr",
+            "type": "@elf32ph",
+            "length": "$Elf32_Ehdr/e_phnum"
+        },
+        {
+            "name": "seek(SEEK_SET)",
+            "type": ".seek_set",
+            "length": "$Elf32_Ehdr/e_shoff"
+        },
+        {
+            "name": "Elf32_Shdr",
+            "type": "@elf32sh",
+            "length": "$Elf32_Ehdr/e_shnum"
         }
     ]
 }

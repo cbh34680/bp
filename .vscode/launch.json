@@ -11,7 +11,17 @@
             "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
+            "args": ["--spec", "elf64.json", "--data", "a64.out"]
+        },
+        {
+            "name": "Python: main.py - 32",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
             "args": ["--spec", "elf32.json", "--data", "a32.out"]
         }
+
     ]
 }

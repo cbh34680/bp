@@ -161,40 +161,33 @@
                 "name": "sh_entsize",
                 "type": "Q"
             }
-        ],
-
-        "@elf64": [
-            {
-                "name": "Elf64_Ehdr",
-                "type": "@elf64eh"
-            },
-            {
-                "name": "seek(SEEK_SET)",
-                "type": ".seek_set",
-                "length": "$Elf64/Elf64_Ehdr/e_phoff"
-            },
-            {
-                "name": "Elf64_Phdr",
-                "type": "@elf64ph",
-                "length": "$Elf64/Elf64_Ehdr/e_phnum"
-            },
-            {
-                "name": "seek(SEEK_SET)",
-                "type": ".seek_set",
-                "length": "$Elf64/Elf64_Ehdr/e_shoff"
-            },
-            {
-                "name": "Elf64_Shdr",
-                "type": "@elf64sh",
-                "length": "$Elf64/Elf64_Ehdr/e_shnum"
-            }
         ]
     },
 
     "root":[
         {
-            "name": "Elf64",
-            "type": "@elf64"
+            "name": "Elf64_Ehdr",
+            "type": "@elf64eh"
+        },
+        {
+            "name": "seek(SEEK_SET)",
+            "type": ".seek_set",
+            "length": "$Elf64_Ehdr/e_phoff"
+        },
+        {
+            "name": "Elf64_Phdr",
+            "type": "@elf64ph",
+            "length": "$Elf64_Ehdr/e_phnum"
+        },
+        {
+            "name": "seek(SEEK_SET)",
+            "type": ".seek_set",
+            "length": "$Elf64_Ehdr/e_shoff"
+        },
+        {
+            "name": "Elf64_Shdr",
+            "type": "@elf64sh",
+            "length": "$Elf64_Ehdr/e_shnum"
         }
     ]
 }
