@@ -1,0 +1,200 @@
+{
+    "structs": {
+        "@e_ident":[
+            {
+                "name": "mag_7f",
+                "type": "B"
+            },
+            {
+                "name": "mag_ELF",
+                "type": "s",
+                "length": 3
+            },
+            {
+                "name": "class",
+                "type": "B"
+            },
+            {
+                "name": "data",
+                "type": "B"
+            },
+            {
+                "name": "version",
+                "type": "B"
+            },
+            {
+                "name": "filler",
+                "type": "x",
+                "length": 9
+            }
+        ],
+        "@elf64eh": [
+            {
+                "name": "e_ident",
+                "type": "@e_ident"
+            },
+            {
+                "name": "e_type",
+                "type": "H"
+            },
+            {
+                "name": "e_machine",
+                "type": "H"
+            },
+            {
+                "name": "e_version",
+                "type": "I"
+            },
+            {
+                "name": "e_entry",
+                "type": "Q"
+            },
+            {
+                "name": "e_phoff",
+                "type": "Q"
+            },
+            {
+                "name": "e_shoff",
+                "type": "Q"
+            },
+            {
+                "name": "e_flags",
+                "type": "I"
+            },
+            {
+                "name": "e_ehsize",
+                "type": "H"
+            },
+            {
+                "name": "e_phentsize",
+                "type": "H"
+            },
+            {
+                "name": "e_phnum",
+                "type": "H"
+            },
+            {
+                "name": "e_shentsize",
+                "type": "H"
+            },
+            {
+                "name": "e_shnum",
+                "type": "H"
+            },
+            {
+                "name": "e_shstrndx",
+                "type": "H"
+            }
+        ],
+        "@elf64ph": [
+            {
+                "name": "p_type",
+                "type": "I"
+            },
+            {
+                "name": "p_flags",
+                "type": "I"
+            },
+            {
+                "name": "p_offset",
+                "type": "Q"
+            },
+            {
+                "name": "p_vaddr",
+                "type": "Q"
+            },
+            {
+                "name": "p_paddr",
+                "type": "Q"
+            },
+            {
+                "name": "p_filesz",
+                "type": "Q"
+            },
+            {
+                "name": "p_memsz",
+                "type": "Q"
+            },
+            {
+                "name": "p_align",
+                "type": "Q"
+            }
+        ],
+        "@elf64sh": [
+            {
+                "name": "sh_name",
+                "type": "I"
+            },
+            {
+                "name": "sh_type",
+                "type": "I"
+            },
+            {
+                "name": "sh_flags",
+                "type": "Q"
+            },
+            {
+                "name": "sh_addr",
+                "type": "Q"
+            },
+            {
+                "name": "sh_offset",
+                "type": "Q"
+            },
+            {
+                "name": "sh_size",
+                "type": "Q"
+            },
+            {
+                "name": "sh_link",
+                "type": "I"
+            },
+            {
+                "name": "sh_info",
+                "type": "I"
+            },
+            {
+                "name": "sh_addralign",
+                "type": "Q"
+            },
+            {
+                "name": "sh_entsize",
+                "type": "Q"
+            }
+        ],
+
+        "@elf64": [
+            {
+                "name": "Elf64_Ehdr",
+                "type": "@elf64eh"
+            },
+            {
+                "name": "seek(SEEK_SET)",
+                "type": ".seek_set",
+                "length": "$Elf64/Elf64_Ehdr/e_phoff"
+            },
+            {
+                "name": "Elf64_Phdr",
+                "type": "@elf64ph",
+                "length": "$Elf64/Elf64_Ehdr/e_phnum"
+            },
+            {
+                "name": "seek(SEEK_SET)",
+                "type": ".seek_set",
+                "length": "$Elf64/Elf64_Ehdr/e_shoff"
+            },
+            {
+                "name": "Elf64_Shdr",
+                "type": "@elf64sh",
+                "length": "$Elf64/Elf64_Ehdr/e_shnum"
+            }
+        ]
+    },
+
+    "root":[
+        {
+            "name": "Elf64",
+            "type": "@elf64"
+        }
+    ]
+}

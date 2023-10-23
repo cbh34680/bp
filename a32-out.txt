@@ -1,0 +1,84 @@
+# readelf -e -W a32.out
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x8048370
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          14636 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         9
+  Size of section headers:           40 (bytes)
+  Number of section headers:         30
+  Section header string table index: 29
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .interp           PROGBITS        08048154 000154 000013 00   A  0   0  1
+  [ 2] .note.ABI-tag     NOTE            08048168 000168 000020 00   A  0   0  4
+  [ 3] .note.gnu.build-id NOTE            08048188 000188 000024 00   A  0   0  4
+  [ 4] .gnu.hash         GNU_HASH        080481ac 0001ac 000020 04   A  5   0  4
+  [ 5] .dynsym           DYNSYM          080481cc 0001cc 000070 10   A  6   1  4
+  [ 6] .dynstr           STRTAB          0804823c 00023c 000080 00   A  0   0  1
+  [ 7] .gnu.version      VERSYM          080482bc 0002bc 00000e 02   A  5   0  2
+  [ 8] .gnu.version_r    VERNEED         080482cc 0002cc 000020 00   A  6   1  4
+  [ 9] .rel.dyn          REL             080482ec 0002ec 000018 08   A  5   0  4
+  [10] .rel.plt          REL             08048304 000304 000010 08  AI  5  22  4
+  [11] .init             PROGBITS        08048314 000314 000024 00  AX  0   0  4
+  [12] .plt              PROGBITS        08048340 000340 000030 04  AX  0   0 16
+  [13] .text             PROGBITS        08048370 000370 0001d5 00  AX  0   0 16
+  [14] .fini             PROGBITS        08048548 000548 000018 00  AX  0   0  4
+  [15] .rodata           PROGBITS        08048560 000560 000018 00   A  0   0  4
+  [16] .eh_frame_hdr     PROGBITS        08048578 000578 00003c 00   A  0   0  4
+  [17] .eh_frame         PROGBITS        080485b4 0005b4 0000f4 00   A  0   0  4
+  [18] .init_array       INIT_ARRAY      08049f04 000f04 000004 04  WA  0   0  4
+  [19] .fini_array       FINI_ARRAY      08049f08 000f08 000004 04  WA  0   0  4
+  [20] .dynamic          DYNAMIC         08049f0c 000f0c 0000e8 08  WA  6   0  4
+  [21] .got              PROGBITS        08049ff4 000ff4 00000c 04  WA  0   0  4
+  [22] .got.plt          PROGBITS        0804a000 001000 000014 04  WA  0   0  4
+  [23] .data             PROGBITS        0804a014 001014 000004 00  WA  0   0  1
+  [24] .bss              NOBITS          0804a018 001018 000004 00  WA  0   0  1
+  [25] .comment          PROGBITS        00000000 001018 000058 01  MS  0   0  1
+  [26] .gnu.build.attributes NOTE            0804a01c 001070 001ab0 00      0   0  4
+  [27] .symtab           SYMTAB          00000000 002b20 000690 10     28  82  4
+  [28] .strtab           STRTAB          00000000 0031b0 000664 00      0   0  1
+  [29] .shstrtab         STRTAB          00000000 003814 000117 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  p (processor specific)
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x08048034 0x08048034 0x00120 0x00120 R   0x4
+  INTERP         0x000154 0x08048154 0x08048154 0x00013 0x00013 R   0x1
+      [Requesting program interpreter: /lib/ld-linux.so.2]
+  LOAD           0x000000 0x08048000 0x08048000 0x006a8 0x006a8 R E 0x1000
+  LOAD           0x000f04 0x08049f04 0x08049f04 0x00114 0x00118 RW  0x1000
+  DYNAMIC        0x000f0c 0x08049f0c 0x08049f0c 0x000e8 0x000e8 RW  0x4
+  NOTE           0x000168 0x08048168 0x08048168 0x00044 0x00044 R   0x4
+  GNU_EH_FRAME   0x000578 0x08048578 0x08048578 0x0003c 0x0003c R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
+  GNU_RELRO      0x000f04 0x08049f04 0x08049f04 0x000fc 0x000fc R   0x1
+
+ Section to Segment mapping:
+  Segment Sections...
+   00
+   01     .interp
+   02     .interp .note.ABI-tag .note.gnu.build-id .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt .init .plt .text .fini .rodata .eh_frame_hdr .eh_frame
+   03     .init_array .fini_array .dynamic .got .got.plt .data .bss
+   04     .dynamic
+   05     .note.ABI-tag .note.gnu.build-id
+   06     .eh_frame_hdr
+   07
+   08     .init_array .fini_array .dynamic .got
