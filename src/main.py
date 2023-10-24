@@ -40,7 +40,7 @@ TYPESIZE = {
 
 FUNCMAP = {
     #'.seek_set': func_seek_set,
-    '.seek_set': lambda f, l, **kwargs: f.seek(l),
+    '.seek_set': lambda fin, lgh, **kwargs: fin.seek(lgh),
 }
 
 
@@ -48,29 +48,33 @@ def hir2indent(hir:list):
     return ''.join(itertools.repeat('\t', len(hir)))
 
 
-def walk(seqs:dict, f:io.BufferedReader, g:dict, hir:list):
+def walk(seqs:dict, fin:io.BufferedReader, glb:dict, hir:list):
     for curr in seqs:
-        name = curr['name']
+        if curr['type'] == '.match_case':
+            v = str(glb['vars'][curr['match']])
+            curr = curr['cases'][v]
+
         typ = curr['type']
+        name = curr['name']
 
         full_name = '/'.join(hir) + f'/{name}'
-        l = curr.get('length') or 1
+        lgh = curr.get('length') or 1
 
-        if not isinstance(l, numbers.Number):
-            l = g['vars'][l]
+        if not isinstance(lgh, numbers.Number):
+            lgh = glb['vars'][lgh]
 
         if typ in FUNCMAP:
             func = FUNCMAP[typ]
-            func(name=name, f=f, g=g, l=l, full_name=full_name)
+            func(curr=curr, fin=fin, glb=glb, lgh=lgh, full_name=full_name)
 
         elif typ in TYPESIZE:
             tsize = TYPESIZE[typ]
-            rsize = tsize * l
+            rsize = tsize * lgh
 
             #print(f"# full_name={full_name} name={name} type={typ} tsize={tsize} l={l} rsize={rsize}", file=sys.stderr)
 
-            byts = f.read(rsize)
-            vals = struct.unpack(f'={l}{typ}', byts)
+            byts = fin.read(rsize)
+            vals = struct.unpack(f'={lgh}{typ}', byts)
             nvals = len(vals)
 
             if nvals == 0:
@@ -94,18 +98,18 @@ def walk(seqs:dict, f:io.BufferedReader, g:dict, hir:list):
 
                 print(f'{hir2indent(hir)}{name}: {p_vals}')
 
-                if f'${full_name}' in g['refnames']:
-                    g['vars'][f'${full_name}'] = vals
+                if f'${full_name}' in glb['refnames']:
+                    glb['vars'][f'${full_name}'] = vals
 
-        elif typ in g['structs']:
-            if l > 1:
-                for i in range(l):
-                    print(f'{hir2indent(hir)}{name}[{i}] - {f.tell()}')
-                    walk(g['structs'][typ], f, g, hir + [ name + f"[{i}]" ])
+        elif typ in glb['structs']:
+            if lgh > 1:
+                for i in range(lgh):
+                    print(f'{hir2indent(hir)}{name}[{i}] - {fin.tell()}')
+                    walk(glb['structs'][typ], fin, glb, hir + [ name + f"[{i}]" ])
 
             else:
-                print(f'{hir2indent(hir)}{name} - {f.tell()}')
-                walk(g['structs'][typ], f, g, hir + [ name ])
+                print(f'{hir2indent(hir)}{name} - {fin.tell()}')
+                walk(glb['structs'][typ], fin, glb, hir + [ name ])
 
         else:
             raise IndexError(f'{typ}: type not found')
