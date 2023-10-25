@@ -1,84 +1,436 @@
-# readelf -e -W a32.out
-ELF Header:
-  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
-  Class:                             ELF32
-  Data:                              2's complement, little endian
-  Version:                           1 (current)
-  OS/ABI:                            UNIX - System V
-  ABI Version:                       0
-  Type:                              EXEC (Executable file)
-  Machine:                           Intel 80386
-  Version:                           0x1
-  Entry point address:               0x8048370
-  Start of program headers:          52 (bytes into file)
-  Start of section headers:          14636 (bytes into file)
-  Flags:                             0x0
-  Size of this header:               52 (bytes)
-  Size of program headers:           32 (bytes)
-  Number of program headers:         9
-  Size of section headers:           40 (bytes)
-  Number of section headers:         30
-  Section header string table index: 29
-
-Section Headers:
-  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
-  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .interp           PROGBITS        08048154 000154 000013 00   A  0   0  1
-  [ 2] .note.ABI-tag     NOTE            08048168 000168 000020 00   A  0   0  4
-  [ 3] .note.gnu.build-id NOTE            08048188 000188 000024 00   A  0   0  4
-  [ 4] .gnu.hash         GNU_HASH        080481ac 0001ac 000020 04   A  5   0  4
-  [ 5] .dynsym           DYNSYM          080481cc 0001cc 000070 10   A  6   1  4
-  [ 6] .dynstr           STRTAB          0804823c 00023c 000080 00   A  0   0  1
-  [ 7] .gnu.version      VERSYM          080482bc 0002bc 00000e 02   A  5   0  2
-  [ 8] .gnu.version_r    VERNEED         080482cc 0002cc 000020 00   A  6   1  4
-  [ 9] .rel.dyn          REL             080482ec 0002ec 000018 08   A  5   0  4
-  [10] .rel.plt          REL             08048304 000304 000010 08  AI  5  22  4
-  [11] .init             PROGBITS        08048314 000314 000024 00  AX  0   0  4
-  [12] .plt              PROGBITS        08048340 000340 000030 04  AX  0   0 16
-  [13] .text             PROGBITS        08048370 000370 0001d5 00  AX  0   0 16
-  [14] .fini             PROGBITS        08048548 000548 000018 00  AX  0   0  4
-  [15] .rodata           PROGBITS        08048560 000560 000018 00   A  0   0  4
-  [16] .eh_frame_hdr     PROGBITS        08048578 000578 00003c 00   A  0   0  4
-  [17] .eh_frame         PROGBITS        080485b4 0005b4 0000f4 00   A  0   0  4
-  [18] .init_array       INIT_ARRAY      08049f04 000f04 000004 04  WA  0   0  4
-  [19] .fini_array       FINI_ARRAY      08049f08 000f08 000004 04  WA  0   0  4
-  [20] .dynamic          DYNAMIC         08049f0c 000f0c 0000e8 08  WA  6   0  4
-  [21] .got              PROGBITS        08049ff4 000ff4 00000c 04  WA  0   0  4
-  [22] .got.plt          PROGBITS        0804a000 001000 000014 04  WA  0   0  4
-  [23] .data             PROGBITS        0804a014 001014 000004 00  WA  0   0  1
-  [24] .bss              NOBITS          0804a018 001018 000004 00  WA  0   0  1
-  [25] .comment          PROGBITS        00000000 001018 000058 01  MS  0   0  1
-  [26] .gnu.build.attributes NOTE            0804a01c 001070 001ab0 00      0   0  4
-  [27] .symtab           SYMTAB          00000000 002b20 000690 10     28  82  4
-  [28] .strtab           STRTAB          00000000 0031b0 000664 00      0   0  1
-  [29] .shstrtab         STRTAB          00000000 003814 000117 00      0   0  1
-Key to Flags:
-  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
-  L (link order), O (extra OS processing required), G (group), T (TLS),
-  C (compressed), x (unknown), o (OS specific), E (exclude),
-  p (processor specific)
-
-Program Headers:
-  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  PHDR           0x000034 0x08048034 0x08048034 0x00120 0x00120 R   0x4
-  INTERP         0x000154 0x08048154 0x08048154 0x00013 0x00013 R   0x1
-      [Requesting program interpreter: /lib/ld-linux.so.2]
-  LOAD           0x000000 0x08048000 0x08048000 0x006a8 0x006a8 R E 0x1000
-  LOAD           0x000f04 0x08049f04 0x08049f04 0x00114 0x00118 RW  0x1000
-  DYNAMIC        0x000f0c 0x08049f0c 0x08049f0c 0x000e8 0x000e8 RW  0x4
-  NOTE           0x000168 0x08048168 0x08048168 0x00044 0x00044 R   0x4
-  GNU_EH_FRAME   0x000578 0x08048578 0x08048578 0x0003c 0x0003c R   0x4
-  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
-  GNU_RELRO      0x000f04 0x08049f04 0x08049f04 0x000fc 0x000fc R   0x1
-
- Section to Segment mapping:
-  Segment Sections...
-   00
-   01     .interp
-   02     .interp .note.ABI-tag .note.gnu.build-id .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt .init .plt .text .fini .rodata .eh_frame_hdr .eh_frame
-   03     .init_array .fini_array .dynamic .got .got.plt .data .bss
-   04     .dynamic
-   05     .note.ABI-tag .note.gnu.build-id
-   06     .eh_frame_hdr
-   07
-   08     .init_array .fini_array .dynamic .got
+Elf32_Ehdr - 0
+        e_ident - 0
+                mag_7f: 0x7f
+                mag_ELF: b'ELF'
+                class: 0x1
+                data: 0x1
+                version: 0x1
+        e_type: 0x2
+        e_machine: 0x3
+        e_version: 0x1
+        e_entry: 0x8048370
+        e_phoff: 0x34
+        e_shoff: 0x392c
+        e_flags: 0x0
+        e_ehsize: 0x34
+        e_phentsize: 0x20
+        e_phnum: 0x9
+        e_shentsize: 0x28
+        e_shnum: 0x1e
+        e_shstrndx: 0x1d
+Elf32_Phdr[0] - 52
+        p_type: 0x6
+        p_flags: 0x34
+        p_offset: 0x8048034
+        p_vaddr: 0x8048034
+        p_paddr: 0x120
+        p_filesz: 0x120
+        p_memsz: 0x4
+        p_align: 0x4
+Elf32_Phdr[1] - 84
+        p_type: 0x3
+        p_flags: 0x154
+        p_offset: 0x8048154
+        p_vaddr: 0x8048154
+        p_paddr: 0x13
+        p_filesz: 0x13
+        p_memsz: 0x4
+        p_align: 0x1
+Elf32_Phdr[2] - 116
+        p_type: 0x1
+        p_flags: 0x0
+        p_offset: 0x8048000
+        p_vaddr: 0x8048000
+        p_paddr: 0x6a8
+        p_filesz: 0x6a8
+        p_memsz: 0x5
+        p_align: 0x1000
+Elf32_Phdr[3] - 148
+        p_type: 0x1
+        p_flags: 0xf04
+        p_offset: 0x8049f04
+        p_vaddr: 0x8049f04
+        p_paddr: 0x114
+        p_filesz: 0x118
+        p_memsz: 0x6
+        p_align: 0x1000
+Elf32_Phdr[4] - 180
+        p_type: 0x2
+        p_flags: 0xf0c
+        p_offset: 0x8049f0c
+        p_vaddr: 0x8049f0c
+        p_paddr: 0xe8
+        p_filesz: 0xe8
+        p_memsz: 0x6
+        p_align: 0x4
+Elf32_Phdr[5] - 212
+        p_type: 0x4
+        p_flags: 0x168
+        p_offset: 0x8048168
+        p_vaddr: 0x8048168
+        p_paddr: 0x44
+        p_filesz: 0x44
+        p_memsz: 0x4
+        p_align: 0x4
+Elf32_Phdr[6] - 244
+        p_type: 0x6474e550
+        p_flags: 0x578
+        p_offset: 0x8048578
+        p_vaddr: 0x8048578
+        p_paddr: 0x3c
+        p_filesz: 0x3c
+        p_memsz: 0x4
+        p_align: 0x4
+Elf32_Phdr[7] - 276
+        p_type: 0x6474e551
+        p_flags: 0x0
+        p_offset: 0x0
+        p_vaddr: 0x0
+        p_paddr: 0x0
+        p_filesz: 0x0
+        p_memsz: 0x6
+        p_align: 0x10
+Elf32_Phdr[8] - 308
+        p_type: 0x6474e552
+        p_flags: 0xf04
+        p_offset: 0x8049f04
+        p_vaddr: 0x8049f04
+        p_paddr: 0xfc
+        p_filesz: 0xfc
+        p_memsz: 0x4
+        p_align: 0x1
+Elf32_Shdr[0] - 14636
+        sh_name: 0x0
+        sh_type: 0x0
+        sh_flags: 0x0
+        sh_addr: 0x0
+        sh_offset: 0x0
+        sh_size: 0x0
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x0
+        sh_entsize: 0x0
+Elf32_Shdr[1] - 14676
+        sh_name: 0x1b
+        sh_type: 0x1
+        sh_flags: 0x2
+        sh_addr: 0x8048154
+        sh_offset: 0x154
+        sh_size: 0x13
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x1
+        sh_entsize: 0x0
+Elf32_Shdr[2] - 14716
+        sh_name: 0x23
+        sh_type: 0x7
+        sh_flags: 0x2
+        sh_addr: 0x8048168
+        sh_offset: 0x168
+        sh_size: 0x20
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[3] - 14756
+        sh_name: 0x31
+        sh_type: 0x7
+        sh_flags: 0x2
+        sh_addr: 0x8048188
+        sh_offset: 0x188
+        sh_size: 0x24
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[4] - 14796
+        sh_name: 0x44
+        sh_type: 0x6ffffff6
+        sh_flags: 0x2
+        sh_addr: 0x80481ac
+        sh_offset: 0x1ac
+        sh_size: 0x20
+        sh_link: 0x5
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x4
+Elf32_Shdr[5] - 14836
+        sh_name: 0x4e
+        sh_type: 0xb
+        sh_flags: 0x2
+        sh_addr: 0x80481cc
+        sh_offset: 0x1cc
+        sh_size: 0x70
+        sh_link: 0x6
+        sh_info: 0x1
+        sh_addralign: 0x4
+        sh_entsize: 0x10
+Elf32_Shdr[6] - 14876
+        sh_name: 0x56
+        sh_type: 0x3
+        sh_flags: 0x2
+        sh_addr: 0x804823c
+        sh_offset: 0x23c
+        sh_size: 0x80
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x1
+        sh_entsize: 0x0
+Elf32_Shdr[7] - 14916
+        sh_name: 0x5e
+        sh_type: 0x6fffffff
+        sh_flags: 0x2
+        sh_addr: 0x80482bc
+        sh_offset: 0x2bc
+        sh_size: 0xe
+        sh_link: 0x5
+        sh_info: 0x0
+        sh_addralign: 0x2
+        sh_entsize: 0x2
+Elf32_Shdr[8] - 14956
+        sh_name: 0x6b
+        sh_type: 0x6ffffffe
+        sh_flags: 0x2
+        sh_addr: 0x80482cc
+        sh_offset: 0x2cc
+        sh_size: 0x20
+        sh_link: 0x6
+        sh_info: 0x1
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[9] - 14996
+        sh_name: 0x7a
+        sh_type: 0x9
+        sh_flags: 0x2
+        sh_addr: 0x80482ec
+        sh_offset: 0x2ec
+        sh_size: 0x18
+        sh_link: 0x5
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x8
+Elf32_Shdr[10] - 15036
+        sh_name: 0x83
+        sh_type: 0x9
+        sh_flags: 0x42
+        sh_addr: 0x8048304
+        sh_offset: 0x304
+        sh_size: 0x10
+        sh_link: 0x5
+        sh_info: 0x16
+        sh_addralign: 0x4
+        sh_entsize: 0x8
+Elf32_Shdr[11] - 15076
+        sh_name: 0x8c
+        sh_type: 0x1
+        sh_flags: 0x6
+        sh_addr: 0x8048314
+        sh_offset: 0x314
+        sh_size: 0x24
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[12] - 15116
+        sh_name: 0x87
+        sh_type: 0x1
+        sh_flags: 0x6
+        sh_addr: 0x8048340
+        sh_offset: 0x340
+        sh_size: 0x30
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x10
+        sh_entsize: 0x4
+Elf32_Shdr[13] - 15156
+        sh_name: 0x92
+        sh_type: 0x1
+        sh_flags: 0x6
+        sh_addr: 0x8048370
+        sh_offset: 0x370
+        sh_size: 0x1d5
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x10
+        sh_entsize: 0x0
+Elf32_Shdr[14] - 15196
+        sh_name: 0x98
+        sh_type: 0x1
+        sh_flags: 0x6
+        sh_addr: 0x8048548
+        sh_offset: 0x548
+        sh_size: 0x18
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[15] - 15236
+        sh_name: 0x9e
+        sh_type: 0x1
+        sh_flags: 0x2
+        sh_addr: 0x8048560
+        sh_offset: 0x560
+        sh_size: 0x18
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[16] - 15276
+        sh_name: 0xa6
+        sh_type: 0x1
+        sh_flags: 0x2
+        sh_addr: 0x8048578
+        sh_offset: 0x578
+        sh_size: 0x3c
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[17] - 15316
+        sh_name: 0xb4
+        sh_type: 0x1
+        sh_flags: 0x2
+        sh_addr: 0x80485b4
+        sh_offset: 0x5b4
+        sh_size: 0xf4
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[18] - 15356
+        sh_name: 0xbe
+        sh_type: 0xe
+        sh_flags: 0x3
+        sh_addr: 0x8049f04
+        sh_offset: 0xf04
+        sh_size: 0x4
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x4
+Elf32_Shdr[19] - 15396
+        sh_name: 0xca
+        sh_type: 0xf
+        sh_flags: 0x3
+        sh_addr: 0x8049f08
+        sh_offset: 0xf08
+        sh_size: 0x4
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x4
+Elf32_Shdr[20] - 15436
+        sh_name: 0xd6
+        sh_type: 0x6
+        sh_flags: 0x3
+        sh_addr: 0x8049f0c
+        sh_offset: 0xf0c
+        sh_size: 0xe8
+        sh_link: 0x6
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x8
+Elf32_Shdr[21] - 15476
+        sh_name: 0xdf
+        sh_type: 0x1
+        sh_flags: 0x3
+        sh_addr: 0x8049ff4
+        sh_offset: 0xff4
+        sh_size: 0xc
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x4
+Elf32_Shdr[22] - 15516
+        sh_name: 0xe4
+        sh_type: 0x1
+        sh_flags: 0x3
+        sh_addr: 0x804a000
+        sh_offset: 0x1000
+        sh_size: 0x14
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x4
+Elf32_Shdr[23] - 15556
+        sh_name: 0xed
+        sh_type: 0x1
+        sh_flags: 0x3
+        sh_addr: 0x804a014
+        sh_offset: 0x1014
+        sh_size: 0x4
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x1
+        sh_entsize: 0x0
+Elf32_Shdr[24] - 15596
+        sh_name: 0xf3
+        sh_type: 0x8
+        sh_flags: 0x3
+        sh_addr: 0x804a018
+        sh_offset: 0x1018
+        sh_size: 0x4
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x1
+        sh_entsize: 0x0
+Elf32_Shdr[25] - 15636
+        sh_name: 0xf8
+        sh_type: 0x1
+        sh_flags: 0x30
+        sh_addr: 0x0
+        sh_offset: 0x1018
+        sh_size: 0x58
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x1
+        sh_entsize: 0x1
+Elf32_Shdr[26] - 15676
+        sh_name: 0x101
+        sh_type: 0x7
+        sh_flags: 0x0
+        sh_addr: 0x804a01c
+        sh_offset: 0x1070
+        sh_size: 0x1ab0
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x4
+        sh_entsize: 0x0
+Elf32_Shdr[27] - 15716
+        sh_name: 0x1
+        sh_type: 0x2
+        sh_flags: 0x0
+        sh_addr: 0x0
+        sh_offset: 0x2b20
+        sh_size: 0x690
+        sh_link: 0x1c
+        sh_info: 0x52
+        sh_addralign: 0x4
+        sh_entsize: 0x10
+Elf32_Shdr[28] - 15756
+        sh_name: 0x9
+        sh_type: 0x3
+        sh_flags: 0x0
+        sh_addr: 0x0
+        sh_offset: 0x31b0
+        sh_size: 0x664
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x1
+        sh_entsize: 0x0
+Elf32_Shdr[29] - 15796
+        sh_name: 0x11
+        sh_type: 0x3
+        sh_flags: 0x0
+        sh_addr: 0x0
+        sh_offset: 0x3814
+        sh_size: 0x117
+        sh_link: 0x0
+        sh_info: 0x0
+        sh_addralign: 0x1
+        sh_entsize: 0x0
+# done. - 15836
+{'$Elf32_Ehdr/e_phnum': 9,
+ '$Elf32_Ehdr/e_phoff': 52,
+ '$Elf32_Ehdr/e_shnum': 30,
+ '$Elf32_Ehdr/e_shoff': 14636}
