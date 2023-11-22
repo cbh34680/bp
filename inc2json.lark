@@ -6,13 +6,19 @@ statement: typedef | struct _C_TERM
 
 typedef: "typedef" decl
 
-decl: decltypes declname declarrs _C_TERM
+decl: native _C_TERM
+    | custom  _C_TERM
 
-decltypes: decltype*
+native: nativetypes declname declarrs
+custom: customname declname declarrs
+
+customname: NAME
+
+nativetypes: nativetype*
 
 declname: NAME
 
-decltype: "char" -> char
+nativetype: "char" -> char
     | "short" -> short
     | "int" -> int
     | "long" -> long
