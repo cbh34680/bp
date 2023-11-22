@@ -9,6 +9,7 @@ import io
 import collections.abc
 
 
+# https://docs.python.org/ja/3/library/struct.html
 TYPESIZE = {
     'x': 1,
     'c': 1,
@@ -101,15 +102,17 @@ def walk(seqs:dict, fin:io.BufferedReader, glb:dict, hir:list):
                 if f'${full_name}' in glb['refnames']:
                     glb['vars'][f'${full_name}'] = vals
 
-        elif typ in glb['structs']:
+        elif typ in glb['sub']:
+            sub = glb['sub']
+
             if lgh > 1:
                 for i in range(lgh):
                     print(f'{hir2indent(hir)}{name}[{i}] - {fin.tell()}')
-                    walk(glb['structs'][typ], fin, glb, hir + [ name + f"[{i}]" ])
+                    walk(sub[typ], fin, glb, hir + [ name + f"[{i}]" ])
 
             else:
                 print(f'{hir2indent(hir)}{name} - {fin.tell()}')
-                walk(glb['structs'][typ], fin, glb, hir + [ name ])
+                walk(sub[typ], fin, glb, hir + [ name ])
 
         else:
             raise IndexError(f'{typ}: type not found')
@@ -133,10 +136,10 @@ def coll_refnames(tree):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--spec', required=True, help='spec json path')
-    parser.add_argument('--data', required=True, help='binary data path')
-    args = parser.parse_args()
+    aparser = argparse.ArgumentParser()
+    aparser.add_argument('--spec', required=True, help='spec json path')
+    aparser.add_argument('--data', required=True, help='binary data path')
+    args = aparser.parse_args()
 
     with (
         open(args.spec) as f_spec,
@@ -144,13 +147,14 @@ def main():
 
         spec = json.load(f_spec)
 
-        refnames = set()
-        for v in coll_refnames(spec):
-            refnames.add(v)
+        #refnames = set()
+        #for v in coll_refnames(spec):
+        #    refnames.add(v)
+        refnames = { v for v in coll_refnames(spec) }
 
-        g = {'vars': {}, 'structs': spec['structs'], 'refnames': refnames}
+        g = {'vars': {}, 'sub': spec['sub'], 'refnames': refnames}
 
-        walk(spec['root'], f_data, g, [])
+        walk(spec['main'], f_data, g, [])
 
         print(f'# done. - {f_data.tell()}', file=sys.stderr)
         pprint.pprint(g['vars'])

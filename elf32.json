@@ -1,5 +1,5 @@
 {
-    "structs": {
+    "sub": {
         "@e_ident":[
             {
                 "name": "mag_7f",
@@ -164,7 +164,7 @@
         ]
     },
 
-    "root":[
+    "main":[
         {
             "name": "Elf32_Ehdr",
             "type": "@elf32eh"

@@ -1,5 +1,5 @@
 {
-    "structs": {
+    "sub": {
         "@e_ident":[
             {
                 "name": "mag_7f",
@@ -342,7 +342,7 @@
         ]
     },
 
-    "root":[
+    "main":[
         {
             "name": "e_ident",
             "type": "@e_ident"

@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": ["--spec", "elf64.json", "--data", "a64.out"]
         },
         {
@@ -19,7 +19,7 @@
             "request": "launch",
             "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": ["--spec", "elf32.json", "--data", "a32.out"]
         },
         {
@@ -28,8 +28,25 @@
             "request": "launch",
             "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": ["--spec", "elf.json", "--data", "a64.out"]
-        }
+        },
+        {
+            "name": "Python: h2j.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}inc2json.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": ["--spec", "inc2json.lark", "--inc", "elf-part.h"]
+        },
+        {
+            "name": "Python: lark test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}ltest.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
     ]
 }

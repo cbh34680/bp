@@ -1,0 +1,36 @@
+
+
+start: statement*
+
+statement: typedef | struct _C_TERM
+
+typedef: "typedef" decl
+
+decl: decltypes declname declarrs _C_TERM
+
+decltypes: decltype*
+
+declname: NAME
+
+decltype: "char" -> char
+    | "short" -> short
+    | "int" -> int
+    | "long" -> long
+    | "signed" -> signed
+    | "unsigned" -> unsigned
+
+declarrs: declarr*
+
+?declarr: "[" NUMBER "]"
+
+struct: "struct" NAME? "{" decl* "}"
+
+_C_TERM: ";"
+
+%import common.CNAME -> NAME
+%import common(INT, NUMBER, WS, SH_COMMENT, CPP_COMMENT, C_COMMENT)
+
+%ignore WS
+%ignore SH_COMMENT
+%ignore CPP_COMMENT
+%ignore C_COMMENT

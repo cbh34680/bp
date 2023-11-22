@@ -1,0 +1,33 @@
+
+?start: statement+
+
+?statement: typedef
+
+typedef: "typedef" (struct|typespec) term
+
+term: ";"
+
+struct: "struct" "{" (typespec ";")+ "}" CNAME
+
+typespec: type+ CNAME array*
+
+type: "char" | "short" | "int" | "long" | "float" | "signed" | "unsigned" | CNAME
+
+array: "[" number "]"
+
+number: "(" number ")" | INT
+
+//typedef: "typedef" typespec ";"
+
+
+// typespec: struct |
+
+
+
+%import common(CNAME)
+%import common(INT, WS, SH_COMMENT, CPP_COMMENT, C_COMMENT)
+
+%ignore WS
+%ignore SH_COMMENT
+%ignore CPP_COMMENT
+%ignore C_COMMENT
