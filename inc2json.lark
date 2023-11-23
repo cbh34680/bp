@@ -4,19 +4,14 @@ start: statement*
 
 statement: typedef | struct _C_TERM
 
-typedef: "typedef" decl
+typedef: "typedef" declare
 
-decl: native _C_TERM
-    | custom  _C_TERM
+declare: (native | userdef) _C_TERM
 
-native: nativetypes declname declarrs
-custom: customname declname declarrs
-
-customname: NAME
+native: nativetypes NAME declarrs
+userdef: NAME NAME declarrs
 
 nativetypes: nativetype*
-
-declname: NAME
 
 nativetype: "char" -> char
     | "short" -> short
@@ -27,9 +22,9 @@ nativetype: "char" -> char
 
 declarrs: declarr*
 
-?declarr: "[" NUMBER "]"
+declarr: "[" NUMBER "]"
 
-struct: "struct" NAME? "{" decl* "}"
+struct: "struct" NAME? "{" declare* "}"
 
 _C_TERM: ";"
 

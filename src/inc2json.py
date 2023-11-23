@@ -1,5 +1,6 @@
 import argparse
 import lark
+import pprint
 
 # https://zenn.dev/tbsten/articles/d922514e548518
 # https://developers.10antz.co.jp/archives/2007
@@ -49,71 +50,69 @@ def types2format(types, num):
 class MyTrans(lark.Transformer):
 
     def __init__(self):
-        self.decls = []
-        self.cur = {}
-        self.aliases = {}
+        self.temp = {}
+        self.userdefs = {}
+
+        self.declroot = {}
+        self.declblock = {'..': self.declroot}
+
 
 
     def nativetypes(self, items):
+        types = []
+
         for item in items:
-            if item.data in ('char', 'int', 'short', 'long', 'float', 'double', 'signed', 'unsigned'):
-                self.cur.setdefault('types', [])
-                self.cur['types'].append(item.data)
+            types.append(item.data)
 
-
-    @lark.v_args(inline=True)
-    def declname(self, token):
-        self.cur['name'] = token.value
+        return types
 
 
     def declarrs(self, items):
         for item in items:
-            self.cur.setdefault('num', 1)
-            self.cur['num'] *= int(item.value)
+            self.temp.setdefault('num', 1)
+            self.temp['num'] *= int(item.value)
 
 
-    def resolve_alias(self, name, num=1):
-        if name in self.aliases:
-            alias = self.aliases[name]
-
-            self.resolve_alias()
-
-        pass
+    @lark.v_args(inline=True)
+    def declarr(self, token):
+        return int(token)
 
 
-    def native(self, _):
-        self.cur.setdefault('num', 1)
-        num = self.cur['num']
+    @lark.v_args(inline=True)
+    def declare(self, decl):
+        self.declblock[decl['name']] = decl
+        self.temp = {}
+        return decl
 
-        if num == 0:
-            return
 
-        types = self.cur['types']
-        format = types2format(types, num)
+    @lark.v_args(inline=True)
+    def userdef(self, origname, declname, _):
+        orig = self.userdefs[origname.value]
+        num = orig['length'] * self.temp['num']
 
-        '''
-        {
-            "name": "mag_ELF",
-            "type": "s",
-            "length": 3
-        },
-        '''
-
-        x = {
-            'name': self.cur['name'],
-            'type': format,
+        return {
+            'name': declname.value,
+            'type': orig['type'],
+            'length': num,
         }
 
-        if num > 1:
-            x['length'] = num
 
-        self.decls.append(x)
-        self.cur = {}
+    @lark.v_args(inline=True)
+    def native(self, _, declname, *args):
+        self.temp.setdefault('num', 1)
+        num = self.temp['num']
+
+        format = types2format(self.temp['types'], num)
+
+        return {
+            'name': declname.value,
+            'type': format,
+            'length': num,
+        }
 
 
-    def typedef(self, _):
-        for decl in self.decls:
-            self.aliases[decl['name']] = decl
+    def typedef(self, decl):
+        pass
 
 
 
@@ -133,6 +132,9 @@ def main():
 
         trans = MyTrans()
         trans.transform(tree)
+
+        pprint.pprint(trans.__dict__)
+        pass
 
     pass
 
