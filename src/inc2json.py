@@ -4,6 +4,7 @@ import pprint
 import operator
 import functools
 import collections.abc
+import json
 
 # https://zenn.dev/tbsten/articles/d922514e548518
 # https://developers.10antz.co.jp/archives/2007
@@ -42,10 +43,12 @@ def types2format(types, num):
 
         match len(xs):
             case 0:
+                # 4 byte (int)
                 format = 'I' if 'unsigned' in natives else 'i'
-            case 1:
-                format = 'L' if 'unsigned' in natives else 'l'
+            #case 1:
+            #    format = 'L' if 'unsigned' in natives else 'l'
             case _:
+                # 8 byte (long, long long)
                 format = 'Q' if 'unsigned' in natives else 'q'
 
     assert format is not None
@@ -69,11 +72,15 @@ def gen_decl(name, type, length, memo=None):
     }
 
 
+def is_iter(x:collections.abc.Iterable):
+    return isinstance(x, collections.abc.Iterable) and not isinstance(x, str)
+
+
 def head_text(tree:lark.Tree):
     return head_val(tree, '')
 
-def head_val(tree:lark.Tree, defval):
-    return tree.children[0].value if len(tree.children) > 0 else defval
+def head_val(tree:lark.Tree, default):
+    return tree.children[0].value if len(tree.children) > 0 else default
 
 
 #@lark.v_args(inline=True)
@@ -82,7 +89,14 @@ class MyTrans(lark.Transformer):
         self.db = {
             'typedef': {},
             'struct': {},
+            'define': {},
         }
+
+
+    @lark.v_args(inline=True)
+    def define(self, name, token):
+        self.db['define'][name.value] = token.value
+
 
 
     # typedef
@@ -92,12 +106,10 @@ class MyTrans(lark.Transformer):
         for decl in tree.children:
             name = decl['name']
 
-            assert name != '', 'ERROR: name is empty'
+            assert name != '', 'ERROR: need typename'
             assert name not in self.db['typedef'], f'ERROR: {name} is not in db'
 
             self.db['typedef'][name] = decl
-
-        pass
 
 
     # struct {}
@@ -168,6 +180,41 @@ class MyTrans(lark.Transformer):
     def declarr(self, token):
         return int(token)
 
+    @lark.v_args(inline=True)
+    def defval(self, token:lark.Token):
+        val = self.db['define'][token.value]
+        return lark.Token(token.type, val)
+
+
+    def print(self):
+
+        def type2out(decls):
+            ret = []
+
+            for org in decls:
+                dst = {
+                    'name': org['name'],
+                    'type': org['type'],
+                }
+
+                if org['type'] == 's' or org['length'] > 1:
+                    dst['length'] = org['length']
+
+                ret.append(dst)
+
+            return ret
+
+        #pp.pprint(self.__dict__)
+
+        #out = {}
+        #for decl in filter(lambda x: is_iter(x['type']), self.db['typedef'].values()):
+        #    out[decl['name']] = decl['type']
+
+        structs = filter(lambda x: is_iter(x['type']), self.db['typedef'].values())
+        #out = { x['name']: x['type'] for x in structs }
+        out = { x['name']: type2out(x['type']) for x in structs }
+
+        print(json.dumps(out, indent=2))
 
 
 def main():
@@ -182,12 +229,14 @@ def main():
     ):
         parser = lark.Lark(f_spec, parser='lalr')
         tree = parser.parse(f_inc.read())
-        print(tree.pretty())
+        #print(tree.pretty())
 
         trans = MyTrans()
         trans.transform(tree)
 
-        pp.pprint(trans.__dict__)
+        #pp.pprint(trans.__dict__)
+
+        trans.print()
 
 
 if __name__ == '__main__':

@@ -2,10 +2,12 @@
 
 start: statement*
 
-statement: typedef | declare
+statement: typedef | declare | define
 
 typedef: "typedef" declare
 
+
+define: "#" "define" NAME NUMBER
 
 declare: (stdtype | alias | usertype) _C_TERM
 
@@ -30,20 +32,25 @@ builtin: "char" -> char
     | "signed" -> signed
     | "unsigned" -> unsigned
     | "const" -> const
+    | "void" -> void
     | "*" -> ptr
 
 
 declarrs: declarr*
-declarr: "[" NUMBER "]"
+declarr: "[" (NUMBER | defval) "]"
+
+defval: NAME
 
 
 _C_TERM: ";"
+PP_COMMENT: /#\s+\d+\s/ ESCAPED_STRING /(\s+\d+)*/
 
 
 %import common.CNAME -> NAME
-%import common(INT, NUMBER, WS, SH_COMMENT, CPP_COMMENT, C_COMMENT)
+%import common(INT, NUMBER, WS, CPP_COMMENT, C_COMMENT, ESCAPED_STRING)
 
 %ignore WS
-%ignore SH_COMMENT
+
+%ignore PP_COMMENT
 %ignore CPP_COMMENT
 %ignore C_COMMENT
