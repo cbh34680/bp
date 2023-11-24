@@ -34,14 +34,13 @@ calc_grammar = """
 
 @v_args(inline=True)    # Affects the signatures of the methods
 class CalculateTree(Transformer):
+    from lmod import add
     from operator import sub, mul, truediv as div, neg
     number = float
 
+
     def __init__(self):
         self.vars = {}
-
-    def add(self, a, b):
-        return a + b
 
     def assign_var(self, name, value):
         self.vars[name] = value
