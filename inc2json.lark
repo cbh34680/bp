@@ -35,12 +35,12 @@ declarr: "[" expr "]" -> id
 expr: sum -> id
 
 ?sum: product
-    | expr "+" expr -> add
-    | expr "-" expr -> sub
+    | sum "+" product -> add
+    | sum "-" product -> sub
 
 ?product: atom
-    | expr "*" expr -> mul
-    | expr "/" expr -> div
+    | product "*" atom -> mul
+    | product "/" atom -> div
 
 ?atom: NUMBER -> int
     | NAME -> var

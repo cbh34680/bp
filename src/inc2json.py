@@ -142,10 +142,10 @@ class MyTrans(lark.Transformer):
 
     # __int64_t, ...
     def alias(self, orgname, name, num):
-        org = self.db['typedef'][orgname]
+        org = self.db['typedef'][orgname.value]
 
         num *= org['length']
-        memo = org['memo'] + f', (A){orgname}'
+        memo = org['memo'] + f', (A){orgname.value}'
 
         return gen_decl(name.value, org['type'], num, memo)
 
