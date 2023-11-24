@@ -65,5 +65,18 @@
             "console": "integratedTerminal",
             "justMyCode": false
         },
+        {
+            "name": "C/C++: gcc アクティブ ファイルのビルドとデバッグ",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: gcc アクティブなファイルのビルド"
+        }
     ]
 }
