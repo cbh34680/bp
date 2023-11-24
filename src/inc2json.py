@@ -59,7 +59,7 @@ def types2format(types, num):
     return format
 
 
-def gen_decl(name, type, length, memo=None):
+def gen_decl(name:str, type, length, memo=None):
 
     if memo is None:
         memo = ''
@@ -94,8 +94,8 @@ class MyTrans(lark.Transformer):
 
 
     @lark.v_args(inline=True)
-    def define(self, name, token):
-        self.db['define'][name.value] = token.value
+    def define(self, name, val):
+        self.db['define'][name.value] = val
 
 
 
@@ -170,20 +170,38 @@ class MyTrans(lark.Transformer):
 
 
     # [10]
+    #@lark.v_args(inline=False)
     def declarrs(self, items):
         if len(items) == 0:
             return 1
 
         return functools.reduce(operator.mul, items)
 
-    @lark.v_args(inline=True)
-    def declarr(self, token):
-        return int(token)
 
     @lark.v_args(inline=True)
-    def defval(self, token:lark.Token):
-        val = self.db['define'][token.value]
-        return lark.Token(token.type, val)
+    def raw(self, v):
+        return v
+
+    @lark.v_args(inline=True)
+    def expr(self, token:lark.Token):
+        val = self.db['define'].get(token.value)
+        val = token.value if val is None else val
+
+        return int(val)
+
+
+    @lark.v_args(inline=True)
+    def expr_add(self, a, b):
+        return a + b
+
+    @lark.v_args(inline=True)
+    def expr_sub(self, a, b):
+        return a - b
+
+    @lark.v_args(inline=True)
+    def expr_mul(self, a, b):
+        return a * b
+
 
 
     def print(self):
@@ -204,7 +222,7 @@ class MyTrans(lark.Transformer):
 
             return ret
 
-        #pp.pprint(self.__dict__)
+        pp.pprint(self.__dict__)
 
         #out = {}
         #for decl in filter(lambda x: is_iter(x['type']), self.db['typedef'].values()):

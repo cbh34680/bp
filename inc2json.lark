@@ -7,7 +7,7 @@ statement: typedef | declare | define
 typedef: "typedef" declare
 
 
-define: "#" "define" NAME NUMBER
+define: "#" "define" NAME expr
 
 declare: (stdtype | alias | usertype) _C_TERM
 
@@ -37,9 +37,15 @@ builtin: "char" -> char
 
 
 declarrs: declarr*
-declarr: "[" (NUMBER | defval) "]"
+declarr: "[" expr "]" -> raw
 
-defval: NAME
+expr: NAME
+    | NUMBER
+    | "(" expr ")" -> raw
+    | expr "+" expr -> expr_add
+    | expr "*" expr -> expr_mul
+    | expr "-" expr -> expr_sub
+
 
 
 _C_TERM: ";"
