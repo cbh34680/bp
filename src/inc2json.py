@@ -1,6 +1,8 @@
 import argparse
 import lark
 import pprint
+import operator
+import functools
 
 # https://zenn.dev/tbsten/articles/d922514e548518
 # https://developers.10antz.co.jp/archives/2007
@@ -50,69 +52,40 @@ def types2format(types, num):
 class MyTrans(lark.Transformer):
 
     def __init__(self):
-        self.temp = {}
-        self.userdefs = {}
-
-        self.declroot = {}
-        self.declblock = {'..': self.declroot}
-
-
-
-    def nativetypes(self, items):
-        types = []
-
-        for item in items:
-            types.append(item.data)
-
-        return types
-
-
-    def declarrs(self, items):
-        for item in items:
-            self.temp.setdefault('num', 1)
-            self.temp['num'] *= int(item.value)
+        pass
 
 
     @lark.v_args(inline=True)
-    def declarr(self, token):
-        return int(token)
+    def usertype(self, tagname, decls, typename):
+        pass
+
+
 
 
     @lark.v_args(inline=True)
-    def declare(self, decl):
-        self.declblock[decl['name']] = decl
-        self.temp = {}
-        return decl
+    def stdtype(self, types, name, num):
 
-
-    @lark.v_args(inline=True)
-    def userdef(self, origname, declname, _):
-        orig = self.userdefs[origname.value]
-        num = orig['length'] * self.temp['num']
+        format = types2format(types, num)
 
         return {
-            'name': declname.value,
-            'type': orig['type'],
-            'length': num,
-        }
-
-
-    @lark.v_args(inline=True)
-    def native(self, _, declname, *args):
-        self.temp.setdefault('num', 1)
-        num = self.temp['num']
-
-        format = types2format(self.temp['types'], num)
-
-        return {
-            'name': declname.value,
+            'name': name.value,
             'type': format,
             'length': num,
         }
 
+    def builtins(self, items):
+        return list(map(lambda x: x.data, items))
 
-    def typedef(self, decl):
-        pass
+
+    def declarrs(self, items):
+        if len(items) == 0:
+            return 1
+
+        return functools.reduce(operator.mul, items)
+
+    @lark.v_args(inline=True)
+    def declarr(self, token):
+        return int(token)
 
 
 

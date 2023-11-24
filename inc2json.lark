@@ -2,29 +2,38 @@
 
 start: statement*
 
-statement: typedef | struct _C_TERM
+statement: typedef | declare
 
 typedef: "typedef" declare
 
-declare: (native | userdef) _C_TERM
 
-native: nativetypes NAME declarrs
-userdef: NAME NAME declarrs
+declare: (stdtype | alias | usertype) _C_TERM
 
-nativetypes: nativetype*
 
-nativetype: "char" -> char
+usertype: "struct" tagname "{" declares "}" typename
+
+tagname: NAME?
+declares: declare*
+typename: NAME?
+
+
+alias: NAME NAME declarrs
+
+
+stdtype: builtins NAME declarrs
+
+builtins: builtin*
+builtin: "char" -> char
     | "short" -> short
     | "int" -> int
     | "long" -> long
     | "signed" -> signed
     | "unsigned" -> unsigned
 
-declarrs: declarr*
 
+declarrs: declarr*
 declarr: "[" NUMBER "]"
 
-struct: "struct" NAME? "{" declare* "}"
 
 _C_TERM: ";"
 
