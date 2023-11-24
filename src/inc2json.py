@@ -170,7 +170,7 @@ class MyTrans(lark.Transformer):
 
         return functools.reduce(operator.mul, nums)
 
-    int = int
+    atoi = int
     id = lambda _, v: v
 
     def var(self, token:lark.Token):

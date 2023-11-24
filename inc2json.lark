@@ -42,7 +42,7 @@ expr: sum -> id
     | product "*" atom -> mul
     | product "/" atom -> div
 
-?atom: NUMBER -> int
+?atom: NUMBER -> atoi
     | NAME -> var
     | "(" expr ")" -> id
 
