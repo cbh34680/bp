@@ -83,8 +83,10 @@ def head_val(tree:lark.Tree, default):
     return tree.children[0].value if len(tree.children) > 0 else default
 
 
-#@lark.v_args(inline=True)
+@lark.v_args(inline=True)
 class MyTrans(lark.Transformer):
+    from operator import add, mul, sub, truediv as div
+
     def __init__(self):
         self.db = {
             'typedef': {},
@@ -93,29 +95,22 @@ class MyTrans(lark.Transformer):
         }
 
 
-    @lark.v_args(inline=True)
     def define(self, name, val):
         self.db['define'][name.value] = val
 
 
-
     # typedef
-    @lark.v_args(inline=True)
-    def typedef(self, tree):
+    def typedef(self, decl):
+        name = decl['name']
 
-        for decl in tree.children:
-            name = decl['name']
+        assert name != '', 'ERROR: need typename'
+        assert name not in self.db['typedef'], f'ERROR: {name} is not in db'
 
-            assert name != '', 'ERROR: need typename'
-            assert name not in self.db['typedef'], f'ERROR: {name} is not in db'
-
-            self.db['typedef'][name] = decl
+        self.db['typedef'][name] = decl
 
 
     # struct {}
-    @lark.v_args(inline=True)
     def usertype(self, tagname, decls, typename, num):
-
         '''
         https://www.tutorialspoint.com/How-to-join-list-of-lists-in-python
 
@@ -129,8 +124,9 @@ class MyTrans(lark.Transformer):
         # printing the resultant list after joining the list of lists
         print("Resultant list after joining list of lists = ", resultList)
         '''
-        type = tuple([ x for decl in decls.children for x in decl.children ])
+        #type = tuple([ x for decl in decls.children for x in decl.children ])
         #assert isinstance(type, collections.abc.Iterable)
+        type = decls.children
 
         tagname = head_text(tagname)
         name = head_text(typename)
@@ -145,9 +141,7 @@ class MyTrans(lark.Transformer):
 
 
     # __int64_t, ...
-    @lark.v_args(inline=True)
     def alias(self, orgname, name, num):
-
         org = self.db['typedef'][orgname]
 
         num *= org['length']
@@ -157,55 +151,33 @@ class MyTrans(lark.Transformer):
 
 
     # char, int, ...
-    @lark.v_args(inline=True)
     def stdtype(self, types, name, num):
-
         format = types2format(types, num)
         memo = '(S)' + ' '.join(types)
 
         return gen_decl(name.value, format, num, memo)
 
-    def builtins(self, items):
-        return tuple(map(lambda x: x.data, items))
+    @lark.v_args(inline=False)
+    def builtins(self, tokens):
+        return tuple(map(lambda x: x.value, tokens))
 
 
     # [10]
-    #@lark.v_args(inline=False)
-    def declarrs(self, items):
-        if len(items) == 0:
+    @lark.v_args(inline=False)
+    def declarrs(self, nums):
+        if len(nums) == 0:
             return 1
 
-        return functools.reduce(operator.mul, items)
+        return functools.reduce(operator.mul, nums)
 
+    int = int
+    id = lambda _, v: v
 
-    @lark.v_args(inline=True)
-    def raw(self, v):
-        return v
-
-    @lark.v_args(inline=True)
-    def expr(self, token:lark.Token):
-        val = self.db['define'].get(token.value)
-        val = token.value if val is None else val
-
-        return int(val)
-
-
-    @lark.v_args(inline=True)
-    def expr_add(self, a, b):
-        return a + b
-
-    @lark.v_args(inline=True)
-    def expr_sub(self, a, b):
-        return a - b
-
-    @lark.v_args(inline=True)
-    def expr_mul(self, a, b):
-        return a * b
-
+    def var(self, token:lark.Token):
+        return self.db['define'][token.value]
 
 
     def print(self):
-
         def type2out(decls):
             ret = []
 

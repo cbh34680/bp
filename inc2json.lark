@@ -9,7 +9,7 @@ typedef: "typedef" declare
 
 define: "#" "define" NAME expr
 
-declare: (stdtype | alias | usertype) _C_TERM
+?declare: (stdtype | alias | usertype) _C_TERM
 
 
 usertype: "struct" tag "{" declares "}" typename declarrs
@@ -25,26 +25,26 @@ alias: NAME NAME declarrs
 stdtype: builtins NAME declarrs
 
 builtins: builtin*
-builtin: "char" -> char
-    | "short" -> short
-    | "int" -> int
-    | "long" -> long
-    | "signed" -> signed
-    | "unsigned" -> unsigned
-    | "const" -> const
-    | "void" -> void
-    | "*" -> ptr
+!?builtin: "char" | "short" | "int" | "long" | "signed" | "unsigned" | "const" | "void" | "*"
 
 
 declarrs: declarr*
-declarr: "[" expr "]" -> raw
+declarr: "[" expr "]" -> id
 
-expr: NAME
-    | NUMBER
-    | "(" expr ")" -> raw
-    | expr "+" expr -> expr_add
-    | expr "*" expr -> expr_mul
-    | expr "-" expr -> expr_sub
+// https://lark-parser.readthedocs.io/en/latest/examples/calc.html
+expr: sum -> id
+
+?sum: product
+    | expr "+" expr -> add
+    | expr "-" expr -> sub
+
+?product: atom
+    | expr "*" expr -> mul
+    | expr "/" expr -> div
+
+?atom: NUMBER -> int
+    | NAME -> var
+    | "(" expr ")" -> id
 
 
 

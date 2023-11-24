@@ -58,10 +58,24 @@
             ]
         },
         {
-            "name": "lark: test",
+            "name": "lark: ltest",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}ltest.py",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}inc2json.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--spec",
+                "inc2json.lark",
+                "--inc",
+                "ltest.h"
+            ]
+        },
+        {
+            "name": "lark: calc",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}calc.py",
             "console": "integratedTerminal",
             "justMyCode": false
         },
