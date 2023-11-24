@@ -65,18 +65,5 @@
             "console": "integratedTerminal",
             "justMyCode": false
         },
-        {
-            "name": "C: print sizeof",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb",
-            "preLaunchTask": "C/C++: gcc アクティブなファイルのビルド"
-        }
     ]
 }

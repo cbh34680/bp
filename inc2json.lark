@@ -10,9 +10,9 @@ typedef: "typedef" declare
 declare: (stdtype | alias | usertype) _C_TERM
 
 
-usertype: "struct" tagname "{" declares "}" typename
+usertype: "struct" tag "{" declares "}" typename declarrs
 
-tagname: NAME?
+tag: NAME?
 declares: declare*
 typename: NAME?
 
@@ -29,6 +29,8 @@ builtin: "char" -> char
     | "long" -> long
     | "signed" -> signed
     | "unsigned" -> unsigned
+    | "const" -> const
+    | "*" -> ptr
 
 
 declarrs: declarr*
@@ -36,6 +38,7 @@ declarr: "[" NUMBER "]"
 
 
 _C_TERM: ";"
+
 
 %import common.CNAME -> NAME
 %import common(INT, NUMBER, WS, SH_COMMENT, CPP_COMMENT, C_COMMENT)

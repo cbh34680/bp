@@ -10,15 +10,20 @@
 
 			"PowerShell": {
 				"source": "PowerShell",
-				"icon": "terminal-powershell"
+				"icon": "terminal-powershell",
+				"args": [
+					"-NoExit",
+					"-Command",
+					"chcp 65001"
+				],
 			},
 			"Command Prompt": {
 				"path": [
 					"${env:windir}\\Sysnative\\cmd.exe",
 					"${env:windir}\\System32\\cmd.exe"
 				],
+				"icon": "terminal-cmd",
 				"args": ["/K","chcp 65001"],
-				"icon": "terminal-cmd"
 			},
 			"Git Bash": {
 				"source": "Git Bash"
