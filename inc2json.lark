@@ -12,7 +12,10 @@ define: "#" "define" NAME expr
 ?declare: (stdtype | alias | usertype) _C_TERM
 
 
-usertype: "struct" tag "{" declares "}" typename declarrs
+?usertype: "struct" usertype_
+
+?usertype_: NAME NAME -> usertyperef
+    | tag "{" declares "}" typename declarrs -> usertypedecl
 
 tag: NAME?
 declares: declare*

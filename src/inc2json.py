@@ -18,7 +18,7 @@ pp = pprint.PrettyPrinter(width=110)
 def types2format(types, num):
     format = None
 
-    natives = tuple(filter(lambda x: x not in ('const', 'ptr'), types))
+    natives = tuple(filter(lambda x: x not in ('const', '*'), types))
 
     if 'char' in natives:
         if 'unsigned' in natives:
@@ -53,7 +53,7 @@ def types2format(types, num):
 
     assert format is not None
 
-    if 'ptr' in types:
+    if '*' in types:
         format = 'P'
 
     return format
@@ -108,9 +108,12 @@ class MyTrans(lark.Transformer):
 
         self.db['typedef'][name] = decl
 
+    # struct tag name
+    def usertyperef(self, tagname, name):
+        pass
 
     # struct {}
-    def usertype(self, tagname, decls, typename, num):
+    def usertypedecl(self, tagname, decls, typename, num):
         '''
         https://www.tutorialspoint.com/How-to-join-list-of-lists-in-python
 
