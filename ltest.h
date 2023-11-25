@@ -21,6 +21,6 @@ struct tagHeader {
 };
 
 typedef struct {
-    //struct tagHeader h;
+    struct tagHeader h[2];
     char c;
 } Data;

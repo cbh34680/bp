@@ -14,7 +14,7 @@ define: "#" "define" NAME expr
 
 ?usertype: "struct" usertype_
 
-?usertype_: NAME NAME -> usertyperef
+?usertype_: NAME NAME declarrs -> usertyperef
     | tag "{" declares "}" typename declarrs -> usertypedecl
 
 tag: NAME?

@@ -13,7 +13,7 @@ import json
 # https://github.com/ligurio/lark-grammars
 
 
-pp = pprint.PrettyPrinter(width=110)
+pp = pprint.PrettyPrinter(width=110, indent=2)
 
 def types2format(types, num):
     format = None
@@ -108,9 +108,18 @@ class MyTrans(lark.Transformer):
 
         self.db['typedef'][name] = decl
 
+
     # struct tag name
-    def usertyperef(self, tagname, name):
-        pass
+    def usertyperef(self, tagname, name, num):
+        decl = self.db['struct'][tagname]
+
+        return {
+            'name': name.value,
+            'type': tagname.value,
+            'length': num,
+            'memo': decl['memo'] + f' (R){name}',
+        }
+
 
     # struct {}
     def usertypedecl(self, tagname, decls, typename, num):
@@ -197,16 +206,18 @@ class MyTrans(lark.Transformer):
 
             return ret
 
-        pp.pprint(self.__dict__)
+        #pp.pprint(self.__dict__)
 
         #out = {}
         #for decl in filter(lambda x: is_iter(x['type']), self.db['typedef'].values()):
         #    out[decl['name']] = decl['type']
 
-        structs = filter(lambda x: is_iter(x['type']), self.db['typedef'].values())
-        #out = { x['name']: x['type'] for x in structs }
-        out = { x['name']: type2out(x['type']) for x in structs }
+        out1 = { k: type2out(v['type']) for k, v in self.db['struct'].items() }
 
+        structs = filter(lambda x: is_iter(x['type']), self.db['typedef'].values())
+        out2 = { v['name']: type2out(v['type']) for v in structs }
+
+        out = out1 | out2
         print(json.dumps(out, indent=2))
 
 
