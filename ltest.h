@@ -20,6 +20,10 @@ struct tagHeader {
     } tih0;
 
     struct tagInHeader tih1;
+
+    struct {
+        int i;
+    } v;
 };
 
 typedef struct tagHeader tagHeader;

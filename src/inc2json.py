@@ -59,7 +59,7 @@ def types2format(types, num):
     return format
 
 
-def gen_decl(name:str, type, length, *, tag=None, memo=None):
+def gen_decl(name:str, type, length=1, *, tag=None, memo=None):
 
     if tag is None:
         tag = ''
@@ -98,6 +98,7 @@ class MyTrans(lark.Transformer):
             'typedef': {},
             'struct': {},
             'define': {},
+            'uniqid': 0,
         }
 
 
@@ -130,14 +131,7 @@ class MyTrans(lark.Transformer):
     # struct tag { char c; } name [1]
     def usertypedecl(self, tagname, decls, typename, num):
         type = decls.children
-<<<<<<< HEAD
 
-        for child in decls.children:
-            if is_iter(child['type']):
-                pass
-
-=======
->>>>>>> 3117d5ff531790d20b540c63b907f360e5dd2cc2
         tagname = head_text(tagname)
         name = head_text(typename)
         memo = f'(U)t={tagname},n={name},m=' + f'{len(type)}'
