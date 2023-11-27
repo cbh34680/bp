@@ -140,6 +140,10 @@ class MyTrans(lark.Transformer):
         #assert isinstance(type, collections.abc.Iterable)
         type = decls.children
 
+        for child in decls.children:
+            if is_iter(child['type']):
+                pass
+
         tagname = head_text(tagname)
         name = head_text(typename)
 
