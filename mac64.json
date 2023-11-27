@@ -1,0 +1,40 @@
+{
+    "sub": {
+      "mach_header": [
+        {
+          "name": "magic",
+          "type": "I"
+        },
+        {
+          "name": "cputype",
+          "type": "i"
+        },
+        {
+          "name": "cpusubtype",
+          "type": "i"
+        },
+        {
+          "name": "filetype",
+          "type": "I"
+        },
+        {
+          "name": "ncmds",
+          "type": "I"
+        },
+        {
+          "name": "sizeofcmds",
+          "type": "I"
+        },
+        {
+          "name": "flags",
+          "type": "I"
+        }
+      ]
+    },
+    "main": [
+      {
+        "name": "mach_header",
+        "type": "mach_header"
+      }
+    ]
+  }

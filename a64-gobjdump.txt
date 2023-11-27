@@ -1,0 +1,12 @@
+$ gobjdump -p a64m.out
+
+a64m.out:     file format mach-o-x86-64
+ MACH-O header:
+   magic:      0xfeedfacf
+   cputype:    0x1000007 (X86_64)
+   cpusubtype: 0x3 (X86_ALL)
+   filetype:   0x2
+   ncmds:      0xe
+   sizeocmds:  0x2e8
+   flags:      0x200085
+   version:    2

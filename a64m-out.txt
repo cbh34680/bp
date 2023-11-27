@@ -1,0 +1,9 @@
+mach_header - 0
+        magic: 0xfeedfacf
+        cputype: 16777223
+        cpusubtype: 3
+        filetype: 0x2
+        ncmds: 0xe
+        sizeofcmds: 0x2e8
+        flags: 0x200085
+# done. - 28

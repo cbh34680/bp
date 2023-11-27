@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: main.py - 64",
+            "name": "Python: binprt.py - elf#64",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}binprt.py",
             "console": "integratedTerminal",
             "justMyCode": false,
             "args": [
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "name": "Python: main.py - 32",
+            "name": "Python: binprt.py - elf#32",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}binprt.py",
             "console": "integratedTerminal",
             "justMyCode": false,
             "args": [
@@ -30,10 +30,10 @@
             ]
         },
         {
-            "name": "Python: main.py - 32/64",
+            "name": "Python: binprt.py - elf#32/64",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}main.py",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}binprt.py",
             "console": "integratedTerminal",
             "justMyCode": false,
             "args": [
@@ -44,7 +44,21 @@
             ]
         },
         {
-            "name": "lark: include to json",
+            "name": "Python: binprt.py - Mach-O#64",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}binprt.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--spec",
+                "mac64.json",
+                "--data",
+                "a64m.out"
+            ]
+        },
+        {
+            "name": "lark: inc2json.py - elf",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}inc2json.py",
@@ -55,6 +69,20 @@
                 "inc2json.lark",
                 "--inc",
                 "elf-part.h"
+            ]
+        },
+        {
+            "name": "lark: inc2json.py - mach-o",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}${pathSeparator}src${pathSeparator}inc2json.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--spec",
+                "inc2json.lark",
+                "--inc",
+                "mach-o-part.h"
             ]
         },
         {
