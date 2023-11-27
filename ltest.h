@@ -14,13 +14,12 @@ typedef mem10 mem2000[SIZE100][2];
 */
 
 struct tagHeader {
-    char c;
-    struct {
+    struct tagInHeader {
+
         int i;
-    } s;
+    } tih0;
+
+    struct tagInHeader tih1;
 };
 
-typedef struct {
-    struct tagHeader h[2];
-    char c;
-} Data;
+typedef struct tagHeader tagHeader;
