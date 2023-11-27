@@ -1,10 +1,14 @@
-#include <stdio.h>
-#include "../elf-part.h"
+
+#include "../ltest.h"
 
 int main() {
 
-    printf("%lu\n", sizeof(mem10));
-    printf("%lu\n", sizeof(mem96));
+    struct tagHeader h;
+
+    h.tih0.i = 1;
+    h.tih1.i = 10;
+
+    tagHeader x;
 
     return 0;
 }

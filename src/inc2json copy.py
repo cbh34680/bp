@@ -59,23 +59,17 @@ def types2format(types, num):
     return format
 
 
-def gen_decl(name:str, type, length, *, tag=None, memo=None):
-
-    if tag is None:
-        tag = ''
+def gen_decl(name:str, type, length, memo=None):
 
     if memo is None:
         memo = ''
 
-    decl = {
+    return {
         'name': name,
         'type': type,
         'length': length,
-        'tag': tag,
         'memo': memo,
     }
-
-    return decl
 
 
 def is_iter(x:collections.abc.Iterable):
@@ -127,14 +121,31 @@ class MyTrans(lark.Transformer):
         }
 
 
-    # struct tag { char c; } name [1]
+    # struct {}
     def usertypedecl(self, tagname, decls, typename, num):
+        '''
+        https://www.tutorialspoint.com/How-to-join-list-of-lists-in-python
+
+        # input list of lists (nested list)
+        input_list = [["tutorialspoint", "python"], [2, 6, 7], [9, 5, 12, 7]]
+        print(input_list)
+
+        # Getting each element from nested Lists and storing them in a new list using list comprehension
+        resultList = [element for nestedlist in input_list for element in nestedlist]
+
+        # printing the resultant list after joining the list of lists
+        print("Resultant list after joining list of lists = ", resultList)
+        '''
+        #type = tuple([ x for decl in decls.children for x in decl.children ])
+        #assert isinstance(type, collections.abc.Iterable)
         type = decls.children
+
         tagname = head_text(tagname)
         name = head_text(typename)
+
         memo = f'(U)t={tagname},n={name},m=' + f'{len(type)}'
 
-        decl = gen_decl(name, type, num, tag=tagname, memo=memo)
+        decl = gen_decl(name, type, num, memo)
         if tagname != '':
             self.db['struct'][tagname] = decl
 
@@ -148,7 +159,7 @@ class MyTrans(lark.Transformer):
         num *= org['length']
         memo = org['memo'] + f', (A){orgname.value}'
 
-        return gen_decl(name.value, org['type'], num, memo=memo)
+        return gen_decl(name.value, org['type'], num, memo)
 
 
     # char, int, ...
@@ -156,7 +167,7 @@ class MyTrans(lark.Transformer):
         format = types2format(types, num)
         memo = '(S)' + ' '.join(types)
 
-        return gen_decl(name.value, format, num, memo=memo)
+        return gen_decl(name.value, format, num, memo)
 
     @lark.v_args(inline=False)
     def builtins(self, tokens):
