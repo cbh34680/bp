@@ -17,13 +17,17 @@ struct tagHeader {
     struct tagInHeader {
 
         int i;
-    } tih0;
+    } defv;
 
-    struct tagInHeader tih1;
+    struct tagInHeader ref;
 
     struct {
         int i;
-    } v;
+    } noname;
+
+    struct {
+        int novalue;
+    };
 };
 
 typedef struct tagHeader tagHeader;

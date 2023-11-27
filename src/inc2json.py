@@ -127,10 +127,34 @@ class MyTrans(lark.Transformer):
             'memo': decl['memo'] + f' (R){name}',
         }
 
+    def gen_uniq(self):
+        v = self.db['uniqid']
+        ret = f'uniqname_{v}'
+        self.db['uniqid'] = v + 1
+        return ret
 
     # struct tag { char c; } name [1]
     def usertypedecl(self, tagname, decls, typename, num):
-        type = decls.children
+        type = []
+
+        for v in decls.children:
+            decl = v.copy()
+
+            if is_iter(decl['type']):
+                if decl['name'] == '':
+                    # ignore
+                    continue
+
+                else:
+                    tag = decl['tag']
+                    if tag == '':
+                        # 入れ子の無名構造体
+                        tag = 'tag#' + self.gen_uniq()
+                        self.db['struct'][tag] = gen_decl(tag, decl['type'], tag=tag)
+
+                    decl['type'] = tag
+
+            type.append(decl)
 
         tagname = head_text(tagname)
         name = head_text(typename)
@@ -208,7 +232,12 @@ class MyTrans(lark.Transformer):
         structs = filter(lambda x: is_iter(x['type']), self.db['typedef'].values())
         out2 = { v['name']: type2out(v['type']) for v in structs }
 
-        out = out1 | out2
+        example = {
+            'name': '* name *',
+            'type': '* type *',
+        }
+
+        out = { 'sub': out1 | out2, 'main': [ example ], }
         print(json.dumps(out, indent=2))
 
 
